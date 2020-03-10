@@ -25,6 +25,7 @@ def main(argv):
     print(get_img_gps(img))
     bcloc = pyzbar.decode(img)
     print(bcloc)
+    get_img_barcodes(img)
 
 def get_img_info(img):
     exif = {
@@ -46,6 +47,25 @@ def get_img_gps(img):
                 + gpsif[3]
     html_str = "<a href=https://google.com/maps/place/" + gps_google_str + ">" + gps_google_str + "</a>"
     return html_str
+
+def get_img_barcodes(A):
+    img = np.array(A, dtype=np.uint8)
+    codes = []
+    # Converts to grayscale
+    npimg = 0.2989 * img[:,:,0] + 0.5870 * img[:,:,1] + 0.1140 * img[:,:,2]
+    mpimg = npimg
+    while True:
+        bcloc = pyzbar.decode(npimg)
+        if len(bcloc) == 0:
+            print(bcloc)
+            return codes
+        codes.append(bcloc)
+        r = bcloc[0].rect
+        dx,dy = int(img.shape[0]*0.02), int(img.shape[1]*0.02)
+        for x in range(r.left-dx,r.left+r.width+dx):
+            for y in range(r.top-dy,r.top+r.height+dy):
+                npimg[y,x] = 0
+        print(codes[-1])
 
 
 if __name__ == "__main__":
