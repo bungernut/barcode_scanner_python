@@ -1,10 +1,7 @@
 # barcode_scanner_python
-Linux Python code to read from a USB barcode scanner directly. A symbol LS2208 was used for testing.
+Linux Python code to read from a USB barcode scanner directly.
 
-![LS2208 Barcode Scanner](Symbol%20LS2208%20Barcode%20Scanner.png "Symbol LS2208 Barcode Scanner")
-
-This uses the pyusb module to read the popular LS2208 USB barcode 
-scanner in Linux. This barcode scanner is sold under many labels.
+This uses the pyusb module to read a USB-HID barcode scanner in Linux.
 
 ## What's the big deal?
 
