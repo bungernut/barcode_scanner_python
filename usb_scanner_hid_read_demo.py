@@ -121,14 +121,14 @@ def hid2ascii(lst):
     # The character to convert is in the third byte
     ch = lst[2]
     if ch not in conv_table:
-        print "Warning: data not in conversion table"
+        print("Warning: data not in conversion table")
         return ''
     return conv_table[ch][shift]
 
 
 
 # Find our device using the VID (Vendor ID) and PID (Product ID)
-dev = usb.core.find(idVendor=0x05e0, idProduct=0x1200)
+dev = usb.core.find(idVendor=0x2dd6, idProduct=0x2141)
 if dev is None:
     raise ValueError('USB device not found')
 
@@ -137,7 +137,7 @@ needs_reattach = False
 if dev.is_kernel_driver_active(0):
     needs_reattach = True
     dev.detach_kernel_driver(0)
-    print "Detached USB device from kernel driver"
+    print("Detached USB device from kernel driver")
 
 # set the active configuration. With no arguments, the first
 # configuration will be the active one
@@ -167,14 +167,14 @@ while True:
         ch = hid2ascii(data)
         line += ch
     except KeyboardInterrupt:
-        print "Stopping program"
+        print("Stopping program")
         dev.reset()
         if needs_reattach:
             dev.attach_kernel_driver(0)
-            print "Reattached USB device to kernel driver"
+            print("Reattached USB device to kernel driver")
         break
     except usb.core.USBError:
         # Timed out. End of the data stream. Print the scan line.
         if len(line) > 0:
-            print line
+            print(line)
             line = ''
